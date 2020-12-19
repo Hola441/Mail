@@ -1,0 +1,44 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    {{ message }}
+    <h2>{{ request.user.email }}</h2>
+    <script src="static/mail/inbox.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <hr>
+
+    <div id="emails-view">
+        <ul id="email-list">
+
+        </ul>
+    </div>
+
+    <div id="compose-view">
+        <h3>New Email</h3>
+        {{ error }}
+        <form id="compose-form" action="{% url 'compose' %}">
+            <div class="form-group">
+                From: <input disabled class="form-control" name="sender" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                To: <input id="compose-recipients" name="recipients" class="form-control">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" name="subject" placeholder="Subject">
+            </div>
+            <textarea class="form-control" id="compose-body" name="body" placeholder="Body"></textarea>
+            <input type="button" class="btn btn-primary" id="submit-form"/>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}
